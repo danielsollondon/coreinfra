@@ -59,7 +59,6 @@ resource "azurerm_kubernetes_flux_configuration" "aks001" {
   cluster_id = azurerm_kubernetes_cluster.test.id
   namespace  = "flux"
 
-### add your repo here
   git_repository {
     url             = "https://github.com/danielsollondon/appteam2"
     reference_type  = "branch"
