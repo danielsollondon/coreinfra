@@ -24,8 +24,8 @@ provider "azurerm" {
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "my_storage_account" {
   name                     = "diag${random_id.random_id.hex}"
-  location                 = var.azure_region
-  resource_group_name      = var.azure_rg
+  location                 = westus3
+  resource_group_name      = demo1
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
