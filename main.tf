@@ -21,9 +21,7 @@ provider "azurerm" {
   use_oidc = true
 }
 
-# add clusters & azure resources here
 
-#### dev cluster 001 ####
 resource "azurerm_kubernetes_cluster" "aks001" {
   name                = "aks001"
   location            = "westus2"
