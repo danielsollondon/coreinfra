@@ -22,26 +22,4 @@ provider "azurerm" {
 }
 
 
-resource "azurerm_kubernetes_cluster" "aks001" {
-  name                = "aks001"
-  location            = "westus2"
-  resource_group_name = "prod-clu-grp01"
-  dns_prefix          = "aks001-k8s"
 
-  default_node_pool {
-    name       = "default"
-    node_count = 3
-    vm_size    = "Standard_DS2_v2"
-  }
-
-  identity {
-    type = "SystemAssigned"
-  }
-
-  role_based_access_control_enabled = true
-
-  tags = {
-    CostCentre = "AI001"
-    Owner = "RupertS"
-  }
-}
