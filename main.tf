@@ -23,12 +23,11 @@ provider "azurerm" {
 
 # add clusters & azure resources here
 
-#### dev cluster 001
-resource "azurerm_kubernetes_cluster" "aks001" {
+#### dev cluster 001resource "azurerm_kubernetes_cluster" "aks001" {
   name                = "aks001"
-  location            = azurerm_resource_group.default.location
-  resource_group_name = prod-clu-grp01
-  dns_prefix          = "${random_pet.prefix.id}-k8s"
+  location            = "westus2"
+  resource_group_name = "prod-clu-grp01"
+  dns_prefix          = "aks001-k8s"
 
   default_node_pool {
     name       = "default"
@@ -50,13 +49,13 @@ resource "azurerm_kubernetes_cluster" "aks001" {
 
 resource "azurerm_kubernetes_cluster_extension" "aks001" {
   name           = "aks001-ext"
-  cluster_id     = azurerm_kubernetes_cluster.test.id
+  cluster_id     = azurerm_kubernetes_cluster.aks001.id
   extension_type = "microsoft.flux"
 }
 
 resource "azurerm_kubernetes_flux_configuration" "aks001" {
   name       = "aks001-fc"
-  cluster_id = azurerm_kubernetes_cluster.test.id
+  cluster_id = azurerm_kubernetes_cluster.aks001.id
   namespace  = "flux"
 
   git_repository {
