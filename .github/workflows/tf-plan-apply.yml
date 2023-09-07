@@ -35,6 +35,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    # Setting tfvars
+    - name: Setup terraform variables
+      id: vars
+      run: |-
+        cat > pipeline.auto.tfvars <<EOF
+        azure_region="${{ secrets.AZURE_REGION }}" 
+        azure_rg="${{ secret.AZURE_TEST_RG_NAME }}" 
+        EOF
+
     # Install the latest version of the Terraform CLI
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
