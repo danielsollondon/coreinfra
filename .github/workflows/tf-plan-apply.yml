@@ -41,7 +41,7 @@ jobs:
       run: |-
         cat > pipeline.auto.tfvars <<EOF
         azure_region="${{ secrets.AZURE_REGION }}" 
-        azure_rg="${{ secret.AZURE_TEST_RG_NAME }}" 
+        azure_rg="${{ secrets.AZURE_TEST_RG_NAME }}" 
         EOF
 
     # Install the latest version of the Terraform CLI
