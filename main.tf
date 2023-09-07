@@ -21,11 +21,4 @@ provider "azurerm" {
   use_oidc = true
 }
 
-# Create storage account for boot diagnostics
-resource "azurerm_storage_account" "my_storage_account" {
-  name                     = "mystor000001454"
-  location                 = "westus3"
-  resource_group_name      = "demo1"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
+# add clusters & azure resources here
