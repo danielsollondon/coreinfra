@@ -23,7 +23,8 @@ provider "azurerm" {
 
 # add clusters & azure resources here
 
-#### dev cluster 001resource "azurerm_kubernetes_cluster" "aks001" {
+#### dev cluster 001 ####
+resource "azurerm_kubernetes_cluster" "aks001" {
   name                = "aks001"
   location            = "westus2"
   resource_group_name = "prod-clu-grp01"
