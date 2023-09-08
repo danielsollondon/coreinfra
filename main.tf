@@ -22,10 +22,11 @@ provider "azurerm" {
 }
 
 resource "azurerm_kubernetes_cluster" "aks001" {
-  name                = "aks001"
-  location            = "westus2"
-  resource_group_name = "prod-clu-grp01"
-  dns_prefix          = "aks001-k8s"
+  name                 = "aks001"
+  location             = "westus3"
+  resource_group_name  = "prod-clu-grp01"
+  dns_prefix           = "aks001-k8s"
+  azure_policy_enabled = true
 
   default_node_pool {
     name       = "default"
