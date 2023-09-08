@@ -58,7 +58,7 @@ resource "azurerm_kubernetes_cluster_extension" "aks001-extn" {
 
 resource "azurerm_kubernetes_flux_configuration" "appteam2-app2" {
   name       = "appteam2-app2"
-  cluster_id = azurerm_kubernetes_cluster.test.id
+  cluster_id = azurerm_kubernetes_cluster.aks001.id
   namespace  = "flux"
 
   git_repository {
