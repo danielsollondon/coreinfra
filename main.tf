@@ -26,7 +26,8 @@ resource "azurerm_kubernetes_cluster" "aks001" {
   location            = "westus2"
   resource_group_name = "prod-clu-grp01"
   dns_prefix          = "aks001-k8s"
-  azure_policy_enabled = true
+  azure_policy_enabled   = true
+
   default_node_pool {
     name       = "default"
     node_count = 3
