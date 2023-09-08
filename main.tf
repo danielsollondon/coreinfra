@@ -57,6 +57,7 @@ resource "azurerm_kubernetes_cluster_extension" "aks001-extn" {
 
   depends_on = [
     azurerm_role_assignment.regrole
+  ]
 }
 
 resource "azurerm_kubernetes_flux_configuration" "appteam2-app2" {
