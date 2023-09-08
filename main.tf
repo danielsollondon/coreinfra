@@ -34,6 +34,11 @@ resource "azurerm_kubernetes_cluster" "aks001" {
     vm_size    = "Standard_DS2_v2"
   }
 
+  lifecycle {
+    ignore_changes = [
+      default_node_pool[0].node_count,
+    ]
+  }
 
   identity {
     type = "SystemAssigned"
