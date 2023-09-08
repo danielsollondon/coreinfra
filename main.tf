@@ -54,6 +54,9 @@ resource "azurerm_kubernetes_cluster_extension" "aks001-extn" {
   name           = "aks001-extn"
   cluster_id     = azurerm_kubernetes_cluster.aks001.id
   extension_type = "microsoft.flux"
+
+  depends_on = [
+    azurerm_role_assignment.regrole
 }
 
 resource "azurerm_kubernetes_flux_configuration" "appteam2-app2" {
@@ -104,6 +107,11 @@ resource "azurerm_role_assignment" "regrole" {
   role_definition_name             = "AcrPull"
   scope                            = "/subscriptions/e049fcf1-c84b-4de4-ba9a-a168a4cbab7a/resourceGroups/acrgrp/providers/Microsoft.ContainerRegistry/registries/dansregwu3"
   skip_service_principal_aad_check = true
+
+  depends_on = [
+    azurerm_kubernetes_cluster.aks001
+
+  ]
 }
 
 
