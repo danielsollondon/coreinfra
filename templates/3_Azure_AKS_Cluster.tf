@@ -1,37 +1,15 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 3.72.0"
-    }
-  }
+### REPLACE CLUSTERNAME
 
-  # Update this block with the location of your terraform state file
-  backend "azurerm" {
-    resource_group_name  = "rg-terraform-github-actions-state"
-    storage_account_name = "tfgh001"
-    container_name       = "tfstate"
-    key                  = "terraform.tfstate"
-    use_oidc             = true
-  }
-}
-
-provider "azurerm" {
-  features {}
-  use_oidc = true
-}
-
-### AI team 001 ### 
-resource "azurerm_kubernetes_cluster" "aks001" {
-  name                 = "aks001"
+resource "azurerm_kubernetes_cluster" "CLUSTERNAME" {
+  name                 = "CLUSTERNAME"
   location             = "westus3"
   resource_group_name  = "prod-clu-grp01"
-  dns_prefix           = "aks001-k8s"
+  dns_prefix           = "CLUSTERNAME-k8s"
   azure_policy_enabled = true
 
   default_node_pool {
     name       = "default"
-    node_count = 4
+    node_count = 5
     vm_size    = "Standard_DS2_v2"
   }
 
@@ -51,9 +29,9 @@ resource "azurerm_kubernetes_cluster" "aks001" {
 
 
 
-resource "azurerm_kubernetes_cluster_extension" "aks001-extn" {
-  name           = "aks001-extn"
-  cluster_id     = azurerm_kubernetes_cluster.aks001.id
+resource "azurerm_kubernetes_cluster_extension" "CLUSTERNAME-extn" {
+  name           = "CLUSTERNAME-extn"
+  cluster_id     = azurerm_kubernetes_cluster.CLUSTERNAME.id
   extension_type = "microsoft.flux"
 
   depends_on = [
@@ -63,7 +41,7 @@ resource "azurerm_kubernetes_cluster_extension" "aks001-extn" {
 
 resource "azurerm_kubernetes_flux_configuration" "appteam2-app2" {
   name       = "appteam2-app2"
-  cluster_id = azurerm_kubernetes_cluster.aks001.id
+  cluster_id = azurerm_kubernetes_cluster.CLUSTERNAME.id
   namespace  = "flux"
 
   git_repository {
@@ -78,23 +56,23 @@ resource "azurerm_kubernetes_flux_configuration" "appteam2-app2" {
   }
 
   depends_on = [
-    azurerm_kubernetes_cluster_extension.aks001-extn
+    azurerm_kubernetes_cluster_extension.CLUSTERNAME-extn
   ]
 }
 
 
 resource "azurerm_role_assignment" "regrole" {
-  principal_id                     = azurerm_kubernetes_cluster.aks001.kubelet_identity[0].object_id
+  principal_id                     = azurerm_kubernetes_cluster.CLUSTERNAME.kubelet_identity[0].object_id
   role_definition_name             = "AcrPull"
   scope                            = "/subscriptions/e049fcf1-c84b-4de4-ba9a-a168a4cbab7a/resourceGroups/acrgrp/providers/Microsoft.ContainerRegistry/registries/dansregwu3"
   skip_service_principal_aad_check = true
 
   depends_on = [
-    azurerm_kubernetes_cluster.aks001
+    azurerm_kubernetes_cluster.CLUSTERNAME
 
   ]
 }
 
-### AI team 001 END ### 
+### END ### 
 
 
