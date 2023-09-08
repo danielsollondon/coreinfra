@@ -73,35 +73,14 @@ resource "azurerm_kubernetes_flux_configuration" "appteam2-app2" {
 
   kustomizations {
     name = "appconfig"
-    path = "./prod"
-  }
-
-  depends_on = [
-    azurerm_kubernetes_flux_configuration.prod-cluster-sh01-config
-  ]
-}
-
-
-resource "azurerm_kubernetes_flux_configuration" "prod-cluster-sh01-config" {
-  name       = "prod-cluster-sh01-config"
-  cluster_id = azurerm_kubernetes_cluster.aks001.id
-  namespace  = "flux"
-
-  git_repository {
-    url             = "https://github.com/danielsollondon/infrarepo01"
-    reference_type  = "branch"
-    reference_value = "main"
-  }
-
-  kustomizations {
-    name = "clusterconfig"
-    path = "./clusterConfigs/prod/prod-cluster-sh01"
+    path = "./staging"
   }
 
   depends_on = [
     azurerm_kubernetes_cluster_extension.aks001-extn
   ]
 }
+
 
 resource "azurerm_role_assignment" "regrole" {
   principal_id                     = azurerm_kubernetes_cluster.aks001.kubelet_identity[0].object_id
