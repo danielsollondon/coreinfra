@@ -38,7 +38,7 @@ resource "azurerm_kubernetes_cluster" "aks001" {
   }
 
   role_based_access_control_enabled = true
-
+  azure_policy_enabled = true
 }
 
 
