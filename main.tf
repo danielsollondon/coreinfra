@@ -26,7 +26,6 @@ resource "azurerm_kubernetes_cluster" "aks001" {
   location            = "westus2"
   resource_group_name = "prod-clu-grp01"
   dns_prefix          = "aks001-k8s"
-  
 
   default_node_pool {
     name       = "default"
@@ -39,9 +38,8 @@ resource "azurerm_kubernetes_cluster" "aks001" {
   }
 
   role_based_access_control_enabled = true
- 
-
 
 }
+
 
 
