@@ -49,4 +49,32 @@ resource "azurerm_kubernetes_cluster" "aks001" {
 }
 
 
+resource "azurerm_kubernetes_cluster_extension" "aks001" {
+  name           = "aks001-ext"
+  cluster_id     = azurerm_kubernetes_cluster.aks001.id
+  extension_type = "microsoft.flux"
+}
+
+resource "azurerm_kubernetes_flux_configuration" "aks001" {
+  name       = "aks001-fc"
+  cluster_id = azurerm_kubernetes_cluster.aks001.id
+  namespace  = "flux"
+
+  git_repository {
+    url             = "https://github.com/danielsollondon/appteam2"
+    reference_type  = "branch"
+    reference_value = "main"
+  }
+
+  kustomizations {
+    name = "appconfig"
+    path = "./prod"
+  }
+
+  depends_on = [
+    azurerm_kubernetes_cluster_extension.aks001
+  ]
+}
+
+
 
