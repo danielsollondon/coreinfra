@@ -49,15 +49,16 @@ resource "azurerm_kubernetes_cluster" "aks001" {
 }
 
 
-resource "azurerm_kubernetes_cluster_extension" "aks001" {
-  name           = "aks001-ext"
-  cluster_id     = azurerm_kubernetes_cluster.aks001.id
+
+resource "azurerm_kubernetes_cluster_extension" "aks001-extn" {
+  name           = "aks001-extn"
+  cluster_id     = azurerm_kubernetes_cluster.test.id
   extension_type = "microsoft.flux"
 }
 
-resource "azurerm_kubernetes_flux_configuration" "aks001" {
-  name       = "aks001-fc"
-  cluster_id = azurerm_kubernetes_cluster.aks001.id
+resource "azurerm_kubernetes_flux_configuration" "appteam2-app2" {
+  name       = "appteam2-app2"
+  cluster_id = azurerm_kubernetes_cluster.test.id
   namespace  = "flux"
 
   git_repository {
@@ -72,7 +73,29 @@ resource "azurerm_kubernetes_flux_configuration" "aks001" {
   }
 
   depends_on = [
-    azurerm_kubernetes_cluster_extension.aks001
+    azurerm_kubernetes_flux_configuration.prod-cluster-sh01-config
+  ]
+}
+
+
+resource "azurerm_kubernetes_flux_configuration" "prod-cluster-sh01-config" {
+  name       = "prod-cluster-sh01-config"
+  cluster_id = azurerm_kubernetes_cluster.test.id
+  namespace  = "flux"
+
+  git_repository {
+    url             = "https://github.com/danielsollondon/infrarepo01"
+    reference_type  = "branch"
+    reference_value = "main"
+  }
+
+  kustomizations {
+    name = "clusterconfig"
+    path = "./clusterConfigs/prod/prod-cluster-sh01"
+  }
+
+  depends_on = [
+    azurerm_kubernetes_cluster_extension.aks001-extn
   ]
 }
 
