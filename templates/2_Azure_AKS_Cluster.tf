@@ -39,8 +39,8 @@ resource "azurerm_kubernetes_cluster_extension" "CLUSTERNAME-extn" {
   ]
 }
 
-resource "azurerm_kubernetes_flux_configuration" "appteam2-app2" {
-  name       = "appteam2-app2"
+resource "azurerm_kubernetes_flux_configuration" "application" {
+  name       = "application"
   cluster_id = azurerm_kubernetes_cluster.CLUSTERNAME.id
   namespace  = "flux"
 
