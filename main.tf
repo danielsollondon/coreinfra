@@ -74,6 +74,7 @@ resource "azurerm_kubernetes_flux_configuration" "appteam2-app2" {
   name       = "appteam2-app2"
   cluster_id = azurerm_kubernetes_cluster.aks001.id
   namespace  = "flux"
+  scope      = "cluster"
 
   git_repository {
     url             = "https://github.com/danielsollondon/appteam2"
