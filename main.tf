@@ -21,6 +21,9 @@ provider "azurerm" {
   use_oidc = true
 }
 
+### CLUSTER CONFIGS BELOW ### 
+
+
 ### AI team 001 ### 
 resource "azurerm_kubernetes_cluster" "aks001" {
   name                 = "aks001"
@@ -46,6 +49,12 @@ resource "azurerm_kubernetes_cluster" "aks001" {
   }
 
   role_based_access_control_enabled = true
+
+  tags = {
+    Environment = "Test",
+    Owner = "PeterKay",
+    CostCentre = "AI001"
+  }
 
 }
 
