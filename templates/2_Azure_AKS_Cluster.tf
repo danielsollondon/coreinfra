@@ -1,5 +1,4 @@
 ### REPLACE CLUSTERNAME
-
 resource "azurerm_kubernetes_cluster" "CLUSTERNAME" {
   name                 = "CLUSTERNAME"
   location             = "westus3"
@@ -15,7 +14,7 @@ resource "azurerm_kubernetes_cluster" "CLUSTERNAME" {
 
   lifecycle {
     ignore_changes = [
-      default_node_pool[0].node_count, tags, monitor_metrics, microsoft_defender, oms_agent
+      tags, monitor_metrics, microsoft_defender, oms_agent
     ]
   }
 
@@ -24,6 +23,12 @@ resource "azurerm_kubernetes_cluster" "CLUSTERNAME" {
   }
 
   role_based_access_control_enabled = true
+
+  tags = {
+    Environment = "Test",
+    Owner       = "PeterKay",
+    CostCenter  = "AI001"
+  }
 
 }
 
@@ -39,10 +44,11 @@ resource "azurerm_kubernetes_cluster_extension" "CLUSTERNAME-extn" {
   ]
 }
 
-resource "azurerm_kubernetes_flux_configuration" "application" {
-  name       = "application"
+resource "azurerm_kubernetes_flux_configuration" "appteam2-app2" {
+  name       = "appteam2-app2"
   cluster_id = azurerm_kubernetes_cluster.CLUSTERNAME.id
   namespace  = "flux"
+  scope      = "cluster"
 
   git_repository {
     url             = "https://github.com/danielsollondon/appteam2"
