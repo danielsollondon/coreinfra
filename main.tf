@@ -53,7 +53,7 @@ resource "azurerm_kubernetes_cluster" "aks001" {
   tags = {
     Environment = "Test",
     Owner       = "PeterKay",
-    CostCentre  = "AI001"
+    CostCenter  = "AI001"
   }
 
 }
