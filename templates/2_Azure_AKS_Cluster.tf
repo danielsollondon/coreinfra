@@ -26,8 +26,7 @@ resource "azurerm_kubernetes_cluster" "CLUSTERNAME" {
 
   tags = {
     Environment = "Test",
-    Owner       = "PeterKay",
-    CostCenter  = "AI001"
+    Owner       = "OWNER"
   }
 
 }
