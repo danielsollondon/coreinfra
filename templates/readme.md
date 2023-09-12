@@ -2,7 +2,7 @@
 
 Smallest number is the smallest capacity cluster.
 
-Copy the template, add your repositry and update the CLUSTERNAME.
+Copy the template, add your REPO, OWNER details and update the CLUSTERNAME.
 
 Raise a PR in main.tf.
 
