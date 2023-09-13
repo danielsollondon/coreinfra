@@ -138,7 +138,8 @@ resource "azurerm_kubernetes_cluster" "aks002" {
 
   tags = {
     Environment = "Test",
-    Owner       = "PeterKay"
+    Owner       = "PeterKay",
+    CostCenter  = "AI002"
   }
 
 }
@@ -219,7 +220,8 @@ resource "azurerm_kubernetes_cluster" "aks003" {
 
   tags = {
     Environment = "Test",
-    Owner       = "PeterKay"
+    Owner       = "PeterKay",
+    CostCenter  = "AI003"
   }
 
 }
