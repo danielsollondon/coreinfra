@@ -40,7 +40,7 @@ resource "azurerm_kubernetes_cluster" "aks001" {
 
   lifecycle {
     ignore_changes = [
-      tags, monitor_metrics, microsoft_defender, oms_agent
+      monitor_metrics, microsoft_defender, oms_agent
     ]
   }
 
@@ -126,7 +126,7 @@ resource "azurerm_kubernetes_cluster" "aks002" {
 
   lifecycle {
     ignore_changes = [
-      tags, monitor_metrics, microsoft_defender, oms_agent
+      monitor_metrics, microsoft_defender, oms_agent
     ]
   }
 
@@ -208,7 +208,7 @@ resource "azurerm_kubernetes_cluster" "aks003" {
 
   lifecycle {
     ignore_changes = [
-      tags, monitor_metrics, microsoft_defender, oms_agent
+      monitor_metrics, microsoft_defender, oms_agent
     ]
   }
 
