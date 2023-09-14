@@ -191,7 +191,6 @@ resource "azurerm_role_assignment" "regrole-aks002" {
   ]
 }
 
-
 ### AI team 003 ### 
 resource "azurerm_kubernetes_cluster" "aks003" {
   name                 = "aks003"
