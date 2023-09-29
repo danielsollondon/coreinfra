@@ -143,11 +143,11 @@ resource "azurerm_kubernetes_cluster" "aks002cil" {
   }
 
   network_profile {
-    network_plugin = "azure"
+    network_plugin      = "azure"
     network_plugin_mode = "overlay"
-    network_policy = "cilium"
-    ebpf_data_plane = "cilium"
-    pod_cidr = "192.168.0.0/16"
+    network_policy      = "cilium"
+    ebpf_data_plane     = "cilium"
+    pod_cidr            = "192.168.0.0/16"
 
   }
 
