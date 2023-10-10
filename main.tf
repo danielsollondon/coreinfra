@@ -120,7 +120,7 @@ resource "azurerm_kubernetes_cluster" "aks002cil" {
 
   default_node_pool {
     name       = "default"
-    node_count = 2
+    node_count = 10
     vm_size    = "Standard_DS2_v2"
   }
 
@@ -140,15 +140,6 @@ resource "azurerm_kubernetes_cluster" "aks002cil" {
     Environment = "Test",
     Owner       = "PeterKay",
     CostCenter  = "AI002"
-  }
-
-  network_profile {
-    network_plugin      = "azure"
-    network_plugin_mode = "overlay"
-    network_policy      = "cilium"
-    ebpf_data_plane     = "cilium"
-    pod_cidr            = "192.168.0.0/16"
-
   }
 
 }
