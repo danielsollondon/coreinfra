@@ -106,3 +106,35 @@ resource "azurerm_role_assignment" "regrole" {
 }
 
 ### AI team 001 END ###
+
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: prod-grp-ig01
+  namespace: default
+spec:
+  location: westus3
+---
+apiVersion: containerservice.azure.com/v1api20230201
+kind: ManagedCluster
+metadata:
+  name: asoprodcluswus401
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: prod-grp-ig01
+  dnsPrefix: asopc01
+  agentPoolProfiles:
+    - name: pool1
+      count: 1
+      vmSize: Standard_DS2_v2
+      osType: Linux
+      mode: System
+    - name: pool2
+      count: 5
+      vmSize: Standard_DS2_v2
+      osType: Linux
+      mode: User
+  identity:
+    type: SystemAssigned
