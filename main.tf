@@ -107,34 +107,84 @@ resource "azurerm_role_assignment" "regrole" {
 
 ### AI team 001 END ###
 
-apiVersion: resources.azure.com/v1api20200601
-kind: ResourceGroup
-metadata:
-  name: prod-grp-ig01
-  namespace: default
-spec:
-  location: westus3
----
-apiVersion: containerservice.azure.com/v1api20230201
-kind: ManagedCluster
-metadata:
-  name: asoprodcluswus401
-  namespace: default
-spec:
-  location: westus3
-  owner:
-    name: prod-grp-ig01
-  dnsPrefix: asopc01
-  agentPoolProfiles:
-    - name: pool1
-      count: 1
-      vmSize: Standard_DS2_v2
-      osType: Linux
-      mode: System
-    - name: pool2
-      count: 5
-      vmSize: Standard_DS2_v2
-      osType: Linux
-      mode: User
-  identity:
-    type: SystemAssigned
+### REPLACE aks002
+resource "azurerm_kubernetes_cluster" "aks002" {
+  name                 = "aks002"
+  location             = "westus3"
+  resource_group_name  = "prod-clu-grp01"
+  dns_prefix           = "aks002-k8s"
+  azure_policy_enabled = true
+
+  default_node_pool {
+    name       = "default"
+    node_count = 2
+    vm_size    = "Standard_DS2_v2"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags, monitor_metrics, microsoft_defender, oms_agent
+    ]
+  }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  role_based_access_control_enabled = true
+
+  tags = {
+    Environment = "Test",
+    Owner       = "OWNER"
+  }
+
+}
+
+
+
+resource "azurerm_kubernetes_cluster_extension" "aks002-extn" {
+  name           = "aks002-extn"
+  cluster_id     = azurerm_kubernetes_cluster.aks002.id
+  extension_type = "microsoft.flux"
+
+  depends_on = [
+    azurerm_role_assignment.regrole
+  ]
+}
+
+resource "azurerm_kubernetes_flux_configuration" "appteam2-app2-aks002" {
+  name       = "appteam2-app2"
+  cluster_id = azurerm_kubernetes_cluster.aks002.id
+  namespace  = "flux"
+  scope      = "cluster"
+
+  git_repository {
+    url             = "https://github.com/danielsollondon/appteam2"
+    reference_type  = "branch"
+    reference_value = "main"
+  }
+
+  kustomizations {
+    name = "appconfig"
+    path = "./staging"
+  }
+
+  depends_on = [
+    azurerm_kubernetes_cluster_extension.aks002-extn
+  ]
+}
+
+
+resource "azurerm_role_assignment" "regrole-aks002" {
+  principal_id                     = azurerm_kubernetes_cluster.aks002.kubelet_identity[0].object_id
+  role_definition_name             = "AcrPull"
+  scope                            = "/subscriptions/e049fcf1-c84b-4de4-ba9a-a168a4cbab7a/resourceGroups/acrgrp/providers/Microsoft.ContainerRegistry/registries/dansregwu3"
+  skip_service_principal_aad_check = true
+
+  depends_on = [
+    azurerm_kubernetes_cluster.aks002
+
+  ]
+}
+
+### END ### 
